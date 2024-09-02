@@ -31,7 +31,14 @@ import Layout from '../layouts/Layout.astro';
 			labels: data.map(({ name }) => name),
 			datasets: [{
 				data: data.map(({ users }) => users.length)
-			}] 
+			}]
+		},
+		options: {
+			plugins: {
+				legend: {
+					labels: { color: '#f1f2fa' }
+				}
+			}
 		}
 	})
 </script>
