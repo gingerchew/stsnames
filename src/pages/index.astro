@@ -23,13 +23,8 @@ import Layout from '../layouts/Layout.astro';
 			...data
 		}
 		// @ts-ignore
-	}).sort((a, b) => {
-		if (a.users.length > b.users.length) {
-			return true;
-		} else {
-			return false;
-		}
-	});
+	}).sort((a, b) => b.users.length - a.users.length);
+	console.log(data);
 	const ctx = document.getElementById('names')! as HTMLCanvasElement;
 
 	new Chart(ctx, {
