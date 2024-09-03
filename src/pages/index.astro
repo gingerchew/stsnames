@@ -22,6 +22,13 @@ import Layout from '../layouts/Layout.astro';
 			id,
 			...data
 		}
+		// @ts-ignore
+	}).sort((a, b) => {
+		if (a.users.length > b.users.length) {
+			return true;
+		} else {
+			return false;
+		}
 	});
 	const ctx = document.getElementById('names')! as HTMLCanvasElement;
 
