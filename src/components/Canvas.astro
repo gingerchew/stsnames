@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+
+const collection = (await getCollection('names')).map(({ id, data }) => {
+	return {
+		id,
+        name: data.name,
+        length: data.users.length
+	}
+	// @ts-ignore
+}).sort((a, b) => b.length - a.length);
+---
+
+<canvas-maker data-json={JSON.stringify(collection)}>
+    <canvas></canvas>
+</canvas-maker>
+<script>
+customElements.define('canvas-maker', class extends HTMLElement {
+    async connectedCallback() {
+        const { Chart } = await import("chart.js/auto");
+        const ctx = this.querySelector('canvas')! as HTMLCanvasElement;
+        const data = JSON.parse(this.getAttribute('data-json')!);
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: data.map(({ name }: { name: string }) => name),
+                datasets: [{
+                    data: data.map((data: { length: number }) => data.length)
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: { color: '#f1f2fa' }
+                    }
+                }
+            }
+        })
+    }
+})
+</script>
+<style>
+    canvas {
+        width: 100%;
+        height: auto;
+    }
+</style>
